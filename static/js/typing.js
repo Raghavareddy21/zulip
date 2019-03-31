@@ -9,6 +9,7 @@ var exports = {};
 
 function send_typing_notification_ajax(user_ids_string, operation) {
     var typing_to = people.user_ids_string_to_emails_string(user_ids_string);
+    console.log("this is happening");
     channel.post({
         url: '/json/typing',
         data: {
@@ -71,6 +72,20 @@ function notify_server_stop(user_ids_string) {
     send_typing_notification_ajax(user_ids_string, "stop");
 }
 
+function get_list_of_stream_recipients() {
+    if(stream_data.get_sub(compose_state.stream_name()) !== undefined){
+        console.log(stream_data.get_sub(compose_state.stream_name()).subscribers);
+        var list = stream_data.get_sub(compose_state.stream_name()).subscribers.keys('k');
+        var list_of_stream_recipients = [ ];
+        _.each(list, function(list) {
+            list_of_stream_recipients.push(list) ;
+    })};
+    if (list_of_stream_recipients != undefined) {
+        list_of_stream_recipients = list_of_stream_recipients.join(',');
+    }
+    return list_of_stream_recipients;
+}
+
 exports.initialize = function () {
     var worker = {
         get_recipient: get_user_ids_string,
@@ -78,12 +93,15 @@ exports.initialize = function () {
         get_current_time: get_current_time,
         notify_server_start: notify_server_start,
         notify_server_stop: notify_server_stop,
+        list_of_stream_recipients: get_list_of_stream_recipients,
     };
 
     $(document).on('input', '#compose-textarea', function () {
         // If our previous state was no typing notification, send a
         // start-typing notice immediately.
+        console.log("Here the typing event is initialized");
         typing_status.handle_text_input(worker);
+        typing_status.handle_streams_text_input(worker);
     });
 
     // We send a stop-typing notification immediately when compose is

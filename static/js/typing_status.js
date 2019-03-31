@@ -36,6 +36,7 @@ exports.state = {};
 
 exports.initialize_state = function () {
     exports.state.current_recipient =  undefined;
+    exports.state.current_stream_recipient = undefined;
     exports.state.next_send_start_time =  undefined;
     exports.state.idle_timer = undefined;
 };
@@ -86,10 +87,21 @@ function maybe_ping_server(worker, recipient) {
     }
 }
 
+exports.handle_streams_text_input = function (worker) {
+    var new_stream_recipients = worker.list_of_stream_recipients();
+    var current_stream_recipients = exports.state.current_stream_recipient;
+    if (current_stream_recipients) {
+        if (new_stream_recipients === current_stream_recipients) {
+
+        }
+    }
+      // console.log(worker.list_of_stream_recipients());
+}
+
 exports.handle_text_input = function (worker) {
     var new_recipient = worker.get_recipient();
     var current_recipient = exports.state.current_recipient;
-
+    console.log(current_recipient);
     if (current_recipient) {
         if (new_recipient === current_recipient) {
             // Nothing has really changed, except we may need
