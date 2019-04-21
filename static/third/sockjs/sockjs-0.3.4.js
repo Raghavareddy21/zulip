@@ -939,7 +939,7 @@ var SockJS = function(url, dep_protocols_whitelist, options) {
         // makes `new` optional
         return new SockJS(url, dep_protocols_whitelist, options);
     }
-    
+
     var that = this, protocols_whitelist;
     that._options = {devel: false, debug: false, protocols_whitelist: [],
                      info: undefined, rtt: undefined};
@@ -2381,4 +2381,3 @@ if (typeof define === 'function' && define.amd) {
 //     [*] End of lib/index.js
 
 // [*] End of lib/all.js
-

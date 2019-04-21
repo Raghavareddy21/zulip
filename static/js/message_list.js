@@ -29,7 +29,7 @@ exports.MessageList = function (opts) {
     this.table_name = table_name;
     this.narrowed = this.table_name === "zfilt";
     this.num_appends = 0;
-
+    console.log(this);
     return this;
 };
 

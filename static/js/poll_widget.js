@@ -181,6 +181,14 @@ exports.poll_data_holder = function (is_my_poll, question, options) {
 };
 
 exports.activate = function (opts) {
+    widget_content=opts.message.content.split(' ')[0].slice(3,);
+    console.log(opts);
+    if(widget_content!=('/poll')){
+        if(opts.message.content=='<p>(deleted)</p>'){
+            message_edit.save(current_msg_list.get_row(opts.message.id),false);
+            return;
+        }
+    }
     var elem = opts.elem;
     var callback = opts.callback;
 
